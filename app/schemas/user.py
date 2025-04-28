@@ -1,6 +1,8 @@
 from pydantic import BaseModel
-from datetime import datatime
-from .post import PostResponse
+from datetime import datetime
+from typing import List
+from app.db.models import User
+from app.core.security import hash_password
 
 class UserCreate(BaseModel):
 	email : str 
@@ -9,7 +11,12 @@ class UserCreate(BaseModel):
 class UserResponse(BaseModel):
 	id : int 
 	email : str
-	posts : List[PostResponse] = []
 
 	class Config: 
-		orm_mode = True 
+		from_attributes = True 
+
+def CreateUserToUser(user : UserCreate):
+	u = User()
+	u.email = user.email
+	u.hashed_password = hash_password(user.password)
+	return u

@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from datetime import datetime
 from ..base import Base
+from sqlalchemy.orm import relationship
 
 class User(Base):
 	__tablename__ = "user"
@@ -13,3 +14,4 @@ class User(Base):
 	created_at = Column(DateTime, default = datetime.utcnow)
 	updated_at = Column(DateTime)
 	
+	posts = relationship('Post', back_populates='owner')
