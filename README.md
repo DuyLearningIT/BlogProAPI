@@ -1,4 +1,5 @@
-Blog API
+**Blog API**
+
 This is a RESTful API for a blogging platform built with FastAPI. It provides endpoints to manage users and blog posts, with a database backend using SQLAlchemy. The API supports CRUD operations for two main entities: User and Post.
 Project Structure
 
