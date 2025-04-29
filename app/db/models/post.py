@@ -13,4 +13,4 @@ class Post(Base):
 	owner_id = Column(Integer, ForeignKey('user.id'))
 	owner = relationship('User', back_populates='posts', foreign_keys=[owner_id])
 	created_at = Column(DateTime, default = datetime.utcnow)
-	updated_at = Column(DateTime, default = datetime.utcnow)
+	updated_at = Column(DateTime)

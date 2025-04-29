@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from .user import UserResponse
 from datetime import datetime 
+from app.db.models import Post
 
 class PostCreate(BaseModel):
 	title : str 
@@ -8,6 +9,7 @@ class PostCreate(BaseModel):
 	owner_id : int 
 
 class PostUpdate(BaseModel):
+	id : int
 	title : str | None = None
 	content : str | None = None
 	owner_id : int | None = None
@@ -23,3 +25,14 @@ class PostResponse(BaseModel):
 
 	class Config: 
 		from_attributes = True
+
+def PostToPostDTO(post : Post):
+	p = PostCreate()
+	p.title = post.title
+	p.content = post.content
+	p.owner_id = post.owner_id
+	return p
+
+def PostDTOToPost(post: PostCreate):
+	p = Post(**post.dict())
+	return p

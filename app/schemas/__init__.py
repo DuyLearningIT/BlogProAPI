@@ -1,5 +1,5 @@
 from .user import UserCreate, UserResponse, CreateUserToUser
-from .post import PostCreate, PostResponse, PostUpdate
+from .post import PostCreate, PostResponse, PostUpdate, PostDTOToPost, PostToPostDTO
 
 __all__ = [
 	'UserResponse',
@@ -8,4 +8,6 @@ __all__ = [
 	'PostCreate',
 	'PostUpdate',
 	'CreateUserToUser',
+	'PostDTOToPost',
+	'PostToPostDTO'
 ]

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from ....crud import get_user_crud, create_user_crud, login_crud
+from ....crud import get_user_crud, create_user_crud, login_crud, get_users
 from app.db.database import db_depend
 from app.schemas.user import UserResponse, UserCreate
 from app.core.security import create_access_token
@@ -46,6 +46,22 @@ async def login(db : db_depend, request: UserCreate):
 	if check:
 		return{
 			'mess' : 'Login successfully !', 
-			'access_token' : create_access_token({'id' : check.id, 'email' : check.email})
+			'access_token' : create_access_token({'id' : check.id, 'email' : check.email, 'role': check.role})
 		}
 	raise HTTPException(status_code=400, detail='Email or password was wrong ! Please try again !')
+
+
+@router.get('/get-all-users')
+async def getallusers(db : db_depend):
+	try:
+		result = get_users(db)
+		return {
+			'mess' : 'Get all users sucessfully !',
+			'status_code' : 200,
+			'data' : result
+		}
+	except Exception as ex:
+		return {
+			'mess' : f'Something was wrong : {ex}',
+			'status_code' : 500
+		}

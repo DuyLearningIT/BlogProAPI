@@ -25,3 +25,7 @@ def login_crud(db: Session, user: UserCreate):
 			return check
 		return None
 	return None
+
+def get_users(db: Session):
+	list_users = db.query(User).all()
+	return list_users
