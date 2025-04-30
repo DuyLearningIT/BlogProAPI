@@ -1,8 +1,8 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from ....crud import get_user_crud, create_user_crud, login_crud, get_users
 from app.db.database import db_depend
 from app.schemas.user import UserResponse, UserCreate
-from app.core.security import create_access_token
+from app.core.security import create_access_token, get_current_user, admin_required
 
 router = APIRouter()
 
@@ -52,16 +52,16 @@ async def login(db : db_depend, request: UserCreate):
 
 
 @router.get('/get-all-users')
-async def getallusers(db : db_depend):
-	try:
-		result = get_users(db)
-		return {
-			'mess' : 'Get all users sucessfully !',
-			'status_code' : 200,
-			'data' : result
-		}
-	except Exception as ex:
-		return {
-			'mess' : f'Something was wrong : {ex}',
-			'status_code' : 500
-		}
+async def getallusers(db: db_depend, current_user: dict = Depends(admin_required)):
+    try:
+        result = get_users(db)
+        return {
+            'mess': 'Get all users successfully!',
+            'status_code': 200,
+            'data': result
+        }
+    except Exception as ex:
+        return {
+            'mess': f'Something was wrong: {ex}',
+            'status_code': 500
+        }
